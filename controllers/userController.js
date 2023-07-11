@@ -56,5 +56,38 @@ module.exports = {
     } catch (err) {
         this.resError(res,err)
     }
+  },
+  async addUserFriend(req, res){
+    try {
+      const user = await User.findOne({_id:req.params.userId})
+      const friend = await User.findOne({_id:req.params.friendId})
+      if (!user || !friend){
+        res.status(404).json({message:"cannot find user or friend"})
+      } else{
+      user.friends.push(friend)
+      await user.save()
+      res.json({message:"friend was added successfully!"})
+      }
+
+    } catch (err) {
+      this.resError(res,err)
+    }
+  },
+  async deleteFriend(req,res){
+    try {
+      const user = User.findOne({_id:req.params.userId})
+      const friend = await User.findOne({_id:red.params.friendId})
+      if (!user || !friend){
+        res.status(404).json({message:"cannot find user or friend"})
+      } else {
+      user.friends.splice(user.friends.indexOf(friend), 1);
+      await user.save()
+      res.json({message:"friend was removed successfully!"})
+
+      }
+
+    } catch (err) {
+      this.resError(res,err)
+    }
   }
 };
