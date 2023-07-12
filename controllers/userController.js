@@ -1,15 +1,16 @@
 const { User, Thought } = require("../models");
+function resError (res, err){
+  return res.status(500).json(err);
+}
 
 module.exports = {
-  resError(res, err) {
-    return res.status(500).json(err);
-  },
+
   async getAllUsers(req, res) {
     try {
       const users = await User.find();
       res.json(users);
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async getSingleUser(req, res) {
@@ -29,7 +30,7 @@ module.exports = {
       const createdUser = await User.create(req.body);
       res.json(createdUser);
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async deleteUser(req, res) {
@@ -43,7 +44,7 @@ module.exports = {
         res.json(deleteUser);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async updateUser(req, res) {
@@ -59,7 +60,7 @@ module.exports = {
         res.json(updateUser);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async addUserFriend(req, res) {
@@ -76,7 +77,7 @@ module.exports = {
         res.json(user);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async deleteFriend(req, res) {
@@ -94,7 +95,7 @@ module.exports = {
         res.json(user);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
 };

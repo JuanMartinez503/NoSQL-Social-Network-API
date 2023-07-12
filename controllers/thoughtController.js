@@ -1,16 +1,16 @@
 const { User, Thought } = require("../models");
-
+function resError (res, err){
+  return res.status(500).json(err);
+}
 module.exports = {
-  resError(res, err) {
-    return res.status(500).json(err);
-  },
+
   async allThought(req, res) {
     try {
       const thoughts = await Thought.find();
 
       res.json(thoughts);
     } catch (err) {
-      this.resError(res, err);
+    resError(res, err);
     }
   },
   async singleThought(req, res) {
@@ -24,7 +24,7 @@ module.exports = {
         res.json(thought);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async createThought(req, res) {
@@ -45,7 +45,7 @@ module.exports = {
         res.json({ message: "Thought was created successfully!" });
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async updateThought(req, res) {
@@ -63,7 +63,7 @@ module.exports = {
         res.json(thought);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async deleteThought(req, res) {
@@ -79,7 +79,7 @@ module.exports = {
         res.json({ message: "Thought was deleted successfully!" });
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async addReaction(req, res) {
@@ -97,7 +97,7 @@ module.exports = {
         res.json(reaction);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async deleteReaction(req, res) {
@@ -115,7 +115,7 @@ module.exports = {
         res.json(reaction);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
 };
