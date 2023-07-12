@@ -1,13 +1,13 @@
-const { User, Thought } = require("../models");
-function resError (res, err){
-  return res.status(500).json(err);
+const User = require("../models/User");
+const  resError= (res, err)=>{
+  return res.status(500).json(err.message);
 }
 
 module.exports = {
 
   async getAllUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find({});
       res.json(users);
     } catch (err) {
       resError(res, err);
@@ -15,14 +15,14 @@ module.exports = {
   },
   async getSingleUser(req, res) {
     try {
-      const singleUser = await User.findOne({ _id: req.params.userId });
+      const singleUser = await User.findOne({ _id: req.params.userId }).populate('thoughts');
       if (!singleUser) {
         res.status(404).json({ message: "User with this id was not found" });
       } else {
         res.json(singleUser);
       }
     } catch (err) {
-      this.resError(res, err);
+      resError(res, err);
     }
   },
   async postUser(req, res) {
@@ -49,7 +49,7 @@ module.exports = {
   },
   async updateUser(req, res) {
     try {
-      const updateUser = User.findOneAndUpdate(
+      const updateUser =await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $set: req.body },
         { new: true, runValidators: true }
@@ -97,5 +97,5 @@ module.exports = {
     } catch (err) {
       resError(res, err);
     }
-  },
+  }
 };
