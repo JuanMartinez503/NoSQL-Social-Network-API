@@ -29,6 +29,7 @@ module.exports = {
   },
   async createThought(req, res) {
     try {
+      //creates a thought and adds the thought to the user 
       const thought = await Thought.create(req.body);
       const user = await User.findOneAndUpdate(
         { username: req.body.username},
@@ -50,6 +51,7 @@ module.exports = {
   },
   async updateThought(req, res) {
     try {
+      //updates a thought by id
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $set: req.body },
@@ -68,6 +70,7 @@ module.exports = {
   },
   async deleteThought(req, res) {
     try {
+      //deletes a thought by _id
       const thought = await Thought.findOneAndDelete({
         _id: req.params.thoughtId,
       });
@@ -102,6 +105,7 @@ module.exports = {
   },
   async deleteReaction(req, res) {
     try {
+      //deletes a reaction
       const reaction = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         {
