@@ -1,6 +1,6 @@
 const { User, Thought } = require("../models");
 function resError (res, err){
-  return res.status(500).json(err);
+  return res.status(500).json(err.message);
 }
 module.exports = {
 
@@ -84,7 +84,7 @@ module.exports = {
   },
   async addReaction(req, res) {
     try {
-      const reaction = Thought.findOneAndUpdate(
+      const reaction = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         {
           $addToSet: { reactions: req.body },
@@ -102,7 +102,7 @@ module.exports = {
   },
   async deleteReaction(req, res) {
     try {
-      const reaction = Thought.findOneAndUpdate(
+      const reaction = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         {
           $pull: { reactions: { reactionId: req.params.reactionId } },
